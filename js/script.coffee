@@ -3,24 +3,8 @@ app = angular.module 'progressCircle', []
 
 app.controller 'Main', ($scope, $interval) ->
   # Set our initial actual/expected.
-  $scope.actual = 0.0
+  $scope.actual = 0.73
   $scope.expected = 0.5
-
-  # Make the progress go back and forth.
-  increasing = true
-  $interval ->
-    if $scope.paused
-      return
-
-    $scope.actual += if increasing then 0.003 else -0.003
-    if $scope.actual >= 1.0
-      $scope.actual = 1.0
-      increasing = false
-
-    if $scope.actual <= 0.0
-      $scope.actual = 0.0
-      increasing = true
-  , 50
 
 
 # A service to deal with colors/blending.

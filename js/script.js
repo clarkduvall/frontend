@@ -5,24 +5,8 @@
   app = angular.module('progressCircle', []);
 
   app.controller('Main', function($scope, $interval) {
-    var increasing;
-    $scope.actual = 0.0;
-    $scope.expected = 0.5;
-    increasing = true;
-    return $interval(function() {
-      if ($scope.paused) {
-        return;
-      }
-      $scope.actual += increasing ? 0.003 : -0.003;
-      if ($scope.actual >= 1.0) {
-        $scope.actual = 1.0;
-        increasing = false;
-      }
-      if ($scope.actual <= 0.0) {
-        $scope.actual = 0.0;
-        return increasing = true;
-      }
-    }, 50);
+    $scope.actual = 0.73;
+    return $scope.expected = 0.5;
   });
 
   app.service('Color', function() {
