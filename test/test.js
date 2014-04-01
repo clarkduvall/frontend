@@ -20,50 +20,73 @@ describe('Directive: progress circle', function() {
   it('Creates two arcs, one bigger than the other', function() {
     var element = $compile('<div progress-circle actual="1.0" expected="0.5">' +
                            '</div>')($rootScope),
-        inner,
-        outer;
+        expected,
+        actual;
     $rootScope.$digest();
 
-    inner = element.find('.expected')[0];
-    outer = element.find('.actual')[0];
-    expect(outer.getTotalLength()).toBeGreaterThan(inner.getTotalLength());
+    expected = element.find('.expected')[0];
+    actual = element.find('.actual')[0];
+    expect(actual.getTotalLength()).toBeGreaterThan(expected.getTotalLength());
   });
 
   it('Changes arc length based on actual progress', function() {
     $rootScope.actual = 0.0;
     var element = $compile('<div progress-circle actual="actual" expected="0.5">' +
                            '</div>')($rootScope),
-        outer,
+        actual,
         baseLength,
         length;
     $rootScope.$digest();
 
-    outer = element.find('.actual')[0];
-    baseLength = outer.getTotalLength();
+    actual = element.find('.actual')[0];
+    baseLength = actual.getTotalLength();
 
     $rootScope.actual = 0.1;
     $rootScope.$digest();
-    length = outer.getTotalLength();
-    expect(outer.getTotalLength()).not.toBe(0.0);
+    length = actual.getTotalLength();
+    expect(actual.getTotalLength()).not.toBe(0.0);
 
     $rootScope.actual = 0.2;
     $rootScope.$digest();
-    expect(outer.getTotalLength()).toBeCloseTo(length * 2 - baseLength, 0);
+    expect(actual.getTotalLength()).toBeCloseTo(length * 2 - baseLength, 0);
+  });
+
+  it('Changes percentage text based on actual progress', function() {
+    $rootScope.actual = 0.0;
+    var element = $compile('<div progress-circle actual="actual" expected="0.5">' +
+                           '</div>')($rootScope),
+        actual;
+    $rootScope.$digest();
+
+    actual = element.find('.actual')[0];
+    expect(element.find('text').text()).toBe('0%Progress');
+
+    $rootScope.actual = 0.1;
+    $rootScope.$digest();
+    expect(element.find('text').text()).toBe('10%Progress');
+
+    $rootScope.actual = 0.2;
+    $rootScope.$digest();
+    expect(element.find('text').text()).toBe('20%Progress');
+
+    $rootScope.actual = 1.0;
+    $rootScope.$digest();
+    expect(element.find('text').text()).toBe('100%Progress');
   });
 
   it('Changes color based on progress', function() {
     $rootScope.actual = 0.0;
     var element = $compile('<div progress-circle actual="actual" expected="0.5">' +
                            '</div>')($rootScope),
-        outer;
+        actual;
     $rootScope.$digest();
 
-    outer = element.find('.actual');
-    expect(outer.css('fill')).toBe('#ff0000');
+    actual = element.find('.actual');
+    expect(actual.css('fill')).toBe('#ff0000');
 
     $rootScope.actual = 0.5;
     $rootScope.$digest();
-    expect(outer.css('fill')).not.toBe('#ff0000');
+    expect(actual.css('fill')).not.toBe('#ff0000');
   });
 });
 
